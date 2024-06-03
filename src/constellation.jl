@@ -1,5 +1,4 @@
 struct Constellation 
-    dim::Int32
     M::Int32
     harvest_ratio::Float64
     symbols::Array

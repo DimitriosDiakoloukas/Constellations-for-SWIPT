@@ -15,7 +15,8 @@ function channel_noise(tx_symbol, distribution)
         noise_imag = rand(distribution)
         noise = Complex(noise_real, noise_imag)
     else 
-        noise = rand(distribution) + rand(distribution)
+        # noise = rand(distribution) + rand(distribution)
+        noise = rand(distribution)
     end
 
     return tx_symbol + noise
@@ -23,7 +24,8 @@ end
 
 function simulate(constellation::Constellation, N0, tries)
     error_count = 0
-    normal_dist = Normal(0, sqrt(N0/4))
+    normal_dist = Normal(0, sqrt(N0/2))
+    # normal_dist = Normal(0, sqrt(N0/4))
     for curr ∈ 1:tries
         tx_index = symbol_indexes[curr]
         tx_symbol = constellation.symbols[tx_index]
