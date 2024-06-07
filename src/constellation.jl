@@ -1,11 +1,13 @@
-struct Constellation 
-    M::Int32
-    harvest_ratio::Float64
-    symbols::Array
-end
+# struct Constellation 
+#     M::Int32
+#     harvest_ratio::Float64
+#     symbols::Array
+# end
 
-energy_per_bit(c::Constellation) = 1 / log2(c.M)
+energy_per_bit(c::Array) = 1 / log2(length(c))
 
-# functions to be defined
-# papr
-# dmin
+# # functions to be defined
+# # papr
+# # dmin
+
+# constellations are simply the array of symbols
