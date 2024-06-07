@@ -27,7 +27,7 @@ function simulate(constellation::Array, snr, harvest_ratio, tries)
     error_count = 0
     N0 = energy_per_bit(constellation) / snr
     normal_dist = Normal(0, sqrt(N0/2))
-    constellation = constellation * (1 - harvest_ratio)
+    constellation_harvested = constellation * (1 - harvest_ratio)
 
     for curr ∈ 1:tries
         tx_index = symbol_indexes[curr]
