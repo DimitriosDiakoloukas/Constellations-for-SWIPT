@@ -2,7 +2,7 @@ function qam_initialization(M = 16)::Array
     N = Int32(sqrt(M))
     qam_real = pam_initialization(N)
     qam_imag = pam_initialization(N)
-    symbols = [Complex(qam_real[i], qam_imag[j]) for j ∈ 1:N for i ∈ 1:N]
+    symbols = sqrt(2)^-1 * [Complex(qam_real[i], qam_imag[j]) for j ∈ 1:N for i ∈ 1:N]
     return symbols
 end
 
