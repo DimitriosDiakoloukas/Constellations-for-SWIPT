@@ -12,5 +12,6 @@ end
 
 function papr(c::Array) 
     peak_energy = max(abs.(c).^2)
-    average_energy 
+    average_energy = average_energy(c)
+    return peak_energy/average_energy
 end

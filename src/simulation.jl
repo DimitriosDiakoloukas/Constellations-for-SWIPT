@@ -27,13 +27,16 @@ function simulate(constellation::Array, snr, harvest_ratio, tries)
     error_count = 0
     N0 = energy_per_bit(constellation) / snr
     normal_dist = Normal(0, sqrt(N0/2))
-    constellation_harvested = constellation * (1 - harvest_ratio)
+    homothecy = sqrt(1 - harvest_ratio)
+    # constellation_harvested = constellation * (1 - harvest_ratio)
+    # constellation = constellation * (1 - harvest_ratio)
 
     for curr ∈ 1:tries
         tx_index = symbol_indexes[curr]
         tx_symbol = constellation[tx_index]
 
         rx_symbol = channel_noise(tx_symbol, normal_dist)
+        rx_symbol *= homothecy
         rx_symbol_detected = detection(rx_symbol, constellation)
 
         error_count += (rx_symbol_detected != tx_symbol)
@@ -48,8 +51,8 @@ function simulateIQ(constellation::Array, snr, harvest_ratio, tries)
     N0 = energy_per_bit(constellation) / snr
     normal_dist_real = Normal(0, sqrt(N0/2))
     normal_dist_imag = Normal(0, sqrt(N0/2))
+    homothecy = sqrt(1 - harvest_ratio)
 
-    constellation = constellation * (1 - harvest_ratio)
     symbols_real = real.(constellation)
     symbols_imag = imag.(constellation)
 
@@ -60,7 +63,9 @@ function simulateIQ(constellation::Array, snr, harvest_ratio, tries)
         tx_symbol_real = real(tx_symbol)
         tx_symbol_imag = imag(tx_symbol)
         rx_symbol_real = channel_noise(tx_symbol_real, normal_dist_real)
+        rx_symbol_real *= homothecy 
         rx_symbol_imag = channel_noise(tx_symbol_imag, normal_dist_imag)
+        rx_symbol_imag *= homothecy
 
         rx_symbol_real_detected = detection(rx_symbol_real, symbols_real)
         rx_symbol_imag_detected = detection(rx_symbol_imag, symbols_imag)
