@@ -9,7 +9,7 @@ end
 function ser_qam(qam::Array, snr::Float64, harvest_ratio::Float64)
     M = length(qam)
     N = Int32(sqrt(M))
-    qam_real_part = real.(qam[1:N])
+    # qam_real_part = real.(qam[1:N])
     # qam_imag_part = Imag.(qam.symbols[N:N:N^2])
     sub_pam = pam_initialization(N)
 

@@ -1,4 +1,3 @@
-tries = 10^6
 
 uniform_discrete_dist(M) = DiscreteUniform(1, M)
 uniform_dicrete_dist_16 = uniform_discrete_dist(16)
@@ -28,8 +27,7 @@ function simulate(constellation::Array, snr, harvest_ratio, tries)
     N0 = energy_per_bit(constellation) / snr
     normal_dist = Normal(0, sqrt(N0/2))
     homothecy = sqrt(1 - harvest_ratio)
-    # constellation_harvested = constellation * (1 - harvest_ratio)
-    # constellation = constellation * (1 - harvest_ratio)
+    # constellation = constellation * sqrt(1 - harvest_ratio)
 
     for curr ∈ 1:tries
         tx_index = symbol_indexes[curr]
@@ -70,7 +68,7 @@ function simulateIQ(constellation::Array, snr, harvest_ratio, tries)
         rx_symbol_real_detected = detection(rx_symbol_real, symbols_real)
         rx_symbol_imag_detected = detection(rx_symbol_imag, symbols_imag)
 
-        error = (rx_symbol_real_detected != tx_symbol_real) ||   (rx_symbol_imag_detected != tx_symbol_imag)
+        error = (rx_symbol_real_detected != tx_symbol_real) || (rx_symbol_imag_detected != tx_symbol_imag)
 
         error_count += error
     end
