@@ -6,18 +6,14 @@ symbol_indexes = rand(uniform_dicrete_dist_16, tries)
 function detection(estimated_point, constellation::Array)
     norm_array = abs.(constellation .- estimated_point)
     detected_symbol_index = argmin(norm_array) 
-    return constellation[detected_symbol_index]
+    # return constellation[detected_symbol_index]
+    return detected_symbol_index
 end
 
 function channel_noise(tx_symbol, distribution::Distribution)
-    if tx_symbol isa Complex
-        noise_real = rand(distribution)
-        noise_imag = rand(distribution)
-        noise = Complex(noise_real, noise_imag)
-    else 
-        # noise = rand(distribution) + rand(distribution)
-        noise = rand(distribution)
-    end
+    noise_real = rand(distribution)
+    noise_imag = rand(distribution)
+    noise = Complex(noise_real, noise_imag)
 
     return tx_symbol + noise
 end
@@ -29,23 +25,40 @@ end
 #     rx_symbol_detected = detection(rx_symbol, constellation)
 
 #     return rx_symbol_detected != tx_symbol
+function symbol_harvest_transform(symbol, harvest::Float64)
+    r = abs(symbol)
 
-function simulate(constellation::Array, snr, harvest_ratio, tries)
+    arg = max(0, r^2 - harvest)
+    r_new = sqrt(arg)
+
+    return r_new*exp(im*angle(symbol))
+end
+
+function harvest_transform(constellation::Array, harvest::Float64)  
+    return symbol_harvest_transform.(constellation, harvest)
+end
+
+function simulate(constellation::Array, snr, harvest, tries)
     error_count = 0
     N0 = energy_per_bit(constellation) / snr
     normal_dist = Normal(0, sqrt(N0/2))
-    homothecy = sqrt(1 - harvest_ratio)
+
+    constellation_harvested = harvest_transform(constellation, harvest)
+    # homothecy = sqrt(1 - harvest_ratio)
     # constellation = constellation * sqrt(1 - harvest_ratio)
 
     for curr ∈ 1:tries
         tx_index = symbol_indexes[curr]
         tx_symbol = constellation[tx_index]
 
-        rx_symbol = channel_noise(tx_symbol, normal_dist)
-        rx_symbol *= homothecy
-        rx_symbol_detected = detection(rx_symbol, constellation)
+        rx_symbol = tx_symbol
+        rx_symbol = channel_noise(rx_symbol, normal_dist)
+        rx_symbol = symbol_harvest_transform(rx_symbol, harvest)
+        # rx_symbol *= homothecy
+        # rx_symbol_detected = detection(rx_symbol, constellation)
+        rx_index = detection(rx_symbol, constellation_harvested)
 
-        error_count += (rx_symbol_detected != tx_symbol)
+        error_count += (rx_index != tx_index)
     end
 
     println("done with $snr")
