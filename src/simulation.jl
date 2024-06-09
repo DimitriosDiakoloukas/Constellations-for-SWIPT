@@ -1,4 +1,4 @@
-
+tries = 10^6
 uniform_discrete_dist(M) = DiscreteUniform(1, M)
 uniform_dicrete_dist_16 = uniform_discrete_dist(16)
 symbol_indexes = rand(uniform_dicrete_dist_16, tries)
