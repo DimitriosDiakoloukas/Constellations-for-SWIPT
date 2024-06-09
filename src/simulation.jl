@@ -9,7 +9,7 @@ function detection(estimated_point, constellation::Array)
     return constellation[detected_symbol_index]
 end
 
-function channel_noise(tx_symbol, distribution)
+function channel_noise(tx_symbol, distribution::Distribution)
     if tx_symbol isa Complex
         noise_real = rand(distribution)
         noise_imag = rand(distribution)
@@ -21,6 +21,14 @@ function channel_noise(tx_symbol, distribution)
 
     return tx_symbol + noise
 end
+
+# function txrx_chain_error(tx_symbol, constellation::Array, homothecy::Float64, noise_distribution::Distribution) 
+#     rx_symbol = channel_noise(tx_symbol, noise_distribution)
+#     rx_symbol *= homothecy
+
+#     rx_symbol_detected = detection(rx_symbol, constellation)
+
+#     return rx_symbol_detected != tx_symbol
 
 function simulate(constellation::Array, snr, harvest_ratio, tries)
     error_count = 0

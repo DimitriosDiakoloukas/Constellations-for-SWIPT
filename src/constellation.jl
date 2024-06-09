@@ -19,4 +19,5 @@ end
 
 function plot_constellation(c::Array)
     plt = scatter(real.(c), imag.(c), legend=false, aspect_ratio=1, framestyle=:origin)
+    return plt
 end

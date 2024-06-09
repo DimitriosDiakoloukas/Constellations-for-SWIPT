@@ -1,6 +1,6 @@
-function Q(x::Float64)
-    return 0.5 * erfc(x / sqrt(2))
-end
+# function Q(x::Float64)
+#     return 0.5 * erfc(x / sqrt(2))
+# end
 
 function cqam_initialization(M = 16)::Array{Complex{Float64},1}
     radii = sqrt(2)^-1 * [1, 2]  
