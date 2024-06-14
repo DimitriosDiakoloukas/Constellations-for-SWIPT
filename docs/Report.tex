@@ -3,7 +3,7 @@
 \usepackage{geometry}
 \usepackage{lipsum}
 \usepackage{amsmath}
-\usepackage[]{graphicx}
+\usepackage{graphicx}
 \usepackage{float}
 \usepackage{tikz}
 \usepackage{grffile}
@@ -16,9 +16,21 @@
 \usepackage{appendix}
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning}
+\usepackage{fancyhdr}
+
+% Geometry settings
+\geometry{a4paper, margin=1in}
+
+% Header and Footer settings
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Telecommunications II Project}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\textit{Ioannis Dimoulios 10641, Dimitrios Diakoloukas 10642}}
 
 \title{Telecommunications II Project}
 \author{Ioannis Dimoulios 10641, Dimitrios Diakoloukas 10642}
+\date{}
 
 \begin{document}
 
@@ -36,7 +48,7 @@ analysis we provide is used to analyze 16-Circular QAM (CQAM) and compare it wit
 
 \subsection{Approach}
 To address the problem, we tried to simulate the output shown in fig 2 of Fundamentals
-of Circular QAM for Wireless Information and Power Transfer Paper
+of Circular QAM for Wireless Information and Power Transfer Paper.
 
 \subsubsection{Initialization and Calculation of Power Metrics for 16-QAM}
 We first calculated the power metrics for a 16-QAM constellation.
@@ -67,7 +79,6 @@ The scatter points represent the performance of 16-PSK, 16-PAM, and 16-QAM.
     \item \textbf{16-PAM (yellow points)}: Shows higher PAPR values around 2 and lower \(d_{\text{min}}\), due to the large amplitude variations characteristic of PAM.
     \item \textbf{16-QAM (yellow point)}: Displays a balance with moderate PAPR around 2 and a relatively higher \(d_{\text{min}}\) around 0.6.
 \end{itemize}
-
 
 \begin{figure}[H]
     \centering
