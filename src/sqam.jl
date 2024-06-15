@@ -1,13 +1,13 @@
-function sqam_initialization(M=16; dmin=0.1, spikes=1)
+function sqam_initialization(M=16; dmin=0.3, spikes=4)
     N = Int32(sqrt(M))
     sqam = qam_initialization(M)
     homothecy = dmin/dmin_constellation(sqam)
 
     sqam *= homothecy
+    max_energy = papr(sqam)*average_energy(sqam)
 
-    spike_bonus_energy = (1 - average_energy(sqam)*M)/spikes
-    spike_ratio = sqrt(1 + spike_bonus_energy)
-
+    spike_bonus_energy = (M - average_energy(sqam)*M)/spikes
+    spike_ratio = sqrt(1 + spike_bonus_energy/max_energy)
 
     if spikes > 0 
         sqam[1] *= spike_ratio

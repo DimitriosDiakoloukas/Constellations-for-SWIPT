@@ -17,12 +17,12 @@ function channel_noise(symbol, distribution::Distribution)
     return symbol + noise
 end
 
-function simulate(constellation::Array, snr, harvest, tries)
+function simulate(constellation::Array, snr, harvest, tries; spikes=0)
     error_count = 0
     N0 = energy_per_bit(constellation) / snr
     normal_dist = Normal(0, sqrt(N0/2))
 
-    constellation_harvested = harvest_transform(constellation, harvest)
+    constellation_harvested = harvest_transform(constellation, harvest, spikes=spikes)
 
     for curr ∈ 1:tries
         tx_index = symbol_indexes[curr]
