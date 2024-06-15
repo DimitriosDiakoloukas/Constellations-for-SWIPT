@@ -311,21 +311,138 @@ For example, consider a 16-PAM constellation and let \(\eps(x_i) = \eps\) for al
     \item \(\eps = 0\), \(\dmin = 0.217\) and \(v(16) = 1\), 
     \item \(\eps = 0.5\), \(\dmin ' = 0\) and \(v(16) = 0\). 
 \end{itemize}
-This volatility on the values of \(v(i)\) makes the construction of a formula for SER as a function of \(\eps\) extremely hard. Luckily, we can bypass this by calculating for each \(\eps\) the new \(\dmin '\) and the array of \(v(i)\)s. Of 
-% We have devised a Monte-Carlo simulation environment where 
+This volatility on the values of \(v(i)\) makes the construction of a formula for SER as a function of \(\eps\) extremely hard. Luckily, we can bypass this by calculating for each \(\eps\) the new \(\dmin '\) and the array of \(v(i)\)s. 
 
 We proceed by providing constellation specific insights for SER calculation. 
 
 \subsubsection*{16-PAM}
 It is straightforward that
 \begin{align}
-    \text{SER}_i &= v(i)Q\left(\sqrt{\frac{6E_s }{(M^2 - 1) N_0}}\right) = v(i)Q\left(\frac{\dmin }{\sqrt{2N_0}}\right) \\
-    \text{SER} &= \frac{1}{M }\sum_{i = 1}^{M } \text{SER}_i = \frac{1}{M }\sum_{i = 1}^{M }v(i)Q\left(\frac{\dmin }{\sqrt{2N_0}}\right)
+    \text{SER}_j &= v(j)Q\left(\sqrt{\frac{6E_s }{(M^2 - 1) N_0}}\right) = v(j)Q\left(\frac{\dmin ' }{\sqrt{2N_0}}\right) \\
+    \text{SER}_\text{PAM} &= \frac{1}{M }\sum_{j = 1}^{M } \text{SER}_j = \frac{1}{M }\sum_{j = 1}^{M }v(j)Q\left(\frac{\dmin ' }{\sqrt{2N_0}}\right)
 \end{align}
 For \(\eps = 0\), this becomes 
 \begin{equation}
-    \text{SER} = Q\left(\sqrt{\frac{6E_s }{(M^2 - 1) N_0}}\right) = Q\left(\sqrt{\frac{\log_2 M \cdot\text{SNR}}{(M^2 - 1)}}\right).
+    \text{SER} = Q\left(\sqrt{\frac{6E_s }{(M^2 - 1) N_0}}\right) = Q\left(\sqrt{\frac{6\log_2 M \cdot\text{SNR}}{(M^2 - 1)}}\right).
 \end{equation}
+
+\subsubsection*{16-QAM}
+When \(\eps > 0\) the constellation loses its straight line grid structure, but we can still approximate it as such. Hence, by considering the I/Q decomposition in two orthogonal 4-PAM's we get the estimation
+\begin{align}
+    \text{SER}_j &\approx 1 - (1 - \text{SER}_{Ij})(1 - \text{SER}_{Qj}) \\
+        &=  1 - \left[1 - v_I(j)Q\left(\frac{\dmin ' }{\sqrt{2N_0}}\right)\right]\left[1 - v_Q(j)Q\left(\frac{\dmin ' }{\sqrt{2N_0}}\right)\right],
+\end{align}
+where \(v_I(\cdot)\) and \(v_Q(\cdot)\) represent the number of neighbors on the I and Q component respectively. By taking the mean over all \(\text{SER}_j\), we can find a good approximation for \(\text{SER}_\text{QAM}\). 
+
+For \(\eps = 0\), this becomes
+\begin{equation}
+    \text{SER} = 1 - \left[1 - Q\left(\sqrt{\frac{1.5\log_2 M \cdot \text{SNR}}{M - 1}}\right)\right]^2
+\end{equation}
+as the energy is equally distributed among the I and Q components and we have \(\sqrt{M}\) instead of \(M\). 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{16qam_e015.png}
+    \caption{16-QAM constellation diagram with \(\eps = 0.15\)}
+\end{figure}
+
+\subsubsection*{16-CQAM}
+Assume the variables introduced in the former analysis in section 1 are the same. According to \cite{cqam}, we can approximate the error rate as follows
+\begin{equation}
+    \text{SER}_\text{CQAM} = \frac{1}{N} \sum_{j = 1}^{N }v(i)Q\left(\sqrt{\text{SNR} \sin \frac{\pi}{n}\left(\sqrt{R_j^2 - \eps }\right)^+}\right). 
+\end{equation}
+
+\subsubsection*{16-sQAM}
+We will use the configuration from \cite{sqam} with \(4\) spikes. On this constellation it only makes sense to harvest energy from the symbols corresponding to the spikes. Otherwise, the reason of existence of the spikes would be neutralized. Of course, it will have to be normalized to match the total harvested energy of the other constellations with constant \(\eps \) across all their symbols. For clarity, this means if we have \(\ell\) spikes and \(\eps \) was the constant harvested energy of every single symbol on the rest of the constellations, then, 
+\begin{equation}
+    \eps ' = \eps(\text{spike}) = \frac{\eps M }{\ell}. 
+\end{equation}
+This is shown on the constellation diagram below. Note that the symbols not corresponding to spikes are identical, while energy has only be harvested from the spiked symbols. 
+
+For the theoretical calculation of the symbol error probability, we emply the approximation outlined in \cite{sqam}. However we first need to calculate the PAPR. This is straight-forward as given the \(\dmin\), we can find the PAPR of the unnormalized constellation corresponding to that minimum distance by reverse engineering the process in the theoretical analysis of the first section. This is essentially the energy of 4 corner symbols, which will also be spiked. 
+
+To achieve this we add the remaining energy to those corner elements to reach average energy \(E_s = 1\) and then the \(\text{PAPR} = |x_M|^2\), where \(x_M\) is one of the corner symbols. Then, we define the following constants: 
+\begin{align}
+    k &= \left(\frac{(2(M - 1)}{3}\right)^{-(1/2)} \\
+    \gamma &= \frac{M - \ell \cdot \text{PAPR}}{M - \ell} \\
+    D_\text{mid} &= k\sqrt{2M - 8\sqrt{M} + 8}. 
+\end{align}
+Now we are ready to calculate the SER. Indeed, 
+\begin{align}
+    \text{SER}_\text{QAM}^\gamma &= 1 - \left[1 - Q\left(\sqrt{\frac{1.5\log_2 M \cdot \text{SNR}}{M - 1}\gamma}\right)\right]^2, \\
+    \text{SER}_\text{QAM}^\text{max} &= Q\left(\frac{|x_M| - D_\text{mid} - \eps '}{\sqrt{2N_0}}\right),
+\end{align}
+Note the normalizing constant \(\gamma \), as well as the extraction of energy from the spike symbols. Then, 
+\begin{equation}
+    \text{SER}_\text{sQAM} = \frac{M - \ell}{M }\text{SER}_\text{QAM}^\gamma + \frac{\ell }{M }\text{SER}_\text{QAM}^\text{max}
+\end{equation}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{16sqam_both0and02.png}
+    \caption{16-sQAM constellation diagram of \(\dmin = 0.3\) with \(\eps = 0\) and \(\eps = 0.2\)}
+\end{figure}
+
+\subsection{Simulation Results}
+We have devised a Monte-Carlo simulation environment where we repeat the same experiment for a specific number of attempts and log the ratio of the errors to the number of the attempts in each of the two cases. 
+
+\subsubsection*{SER over \(\eps(x)\)}
+The results of SER over \(\eps(x)\) simulation are summarized in the following graph. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.59]{ex2_a.png}
+    \caption{SER as a function of \(\eps(x)\) simulation graph}
+\end{figure}
+Excluding CQAM, the results are identical to those presented in \cite{cqam}. 
+
+Regarding sQAM, it outperforms all other modulation schemes up to the point that the spikes are completely degraded to the origin. 
+
+\subsubsection*{SER over SNR}
+The results of SER over SNR simulation are summarized in the following graph.  
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.59]{ex2_b.png}
+    \caption{SER as a function of SNR simulation graph}
+\end{figure}
+
+Note that CQAM with harvesting performance is radically worse to the one in \cite{cqam}. The other curves are very similar though. Moreover, notice that the perfomance of sQAM is not degraded at all despite the harvesting. This is to be expected when harvesting only from the spikes in a very high SNR environment. 
+
+\section{16-Bee QAM (16-BQAM)}
+BQAM is a new modulation scheme optimized for SWIPT drawing inspiration from both CQAM and sQAM. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.57]{bqam_both.png}
+    \caption{16-BQAM constellations, a) with \(\dmin = 0.6\) and b) with \(\dmin = 0.2\)}
+\end{figure}
+
+It consists of two 6-PSKs such that the distance between any two of their 12 symbols in total is \(\dmin\). The remaining energy is used for the other 4 symbols, which form a 4-PSK with the maximal energy. The idea can be generalized for higher order modulations with \(M = 4^k\) symbols, such that \(M \equiv 4 \pmod 6\) with appropriate restrictions for \(\dmin\). 
+
+We now repeat our former simulation analysis, but this time we include BQAM. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.58]{bqam_papr_dmin.png}
+    \caption{PAPR over \(\dmin\) plot for BQAM}
+\end{figure}
+
+For all possible \(\dmin\) the PAPRs of BQAM and sQAM are almost identical. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.58]{bqam_ex2_a.png}
+    \caption{SER as function of \(\eps(x)\) graph with BQAM included}
+\end{figure}
+It is apparent that a tradeoff between \(\dmin \) and PAPR can be made such that the performance of QAM is matched. Note that we are not harvesting energy exclusively on the spikes of BQAM; hence, the difference with sQAM which does exactly that. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.58]{bqam_ex2_b.png}
+    \caption{SER as function of \(\eps(x)\) graph with BQAM included}
+\end{figure}
+Note that BQAM has almost identical SER with QAM without energy harvesting. On the other hand it is cleary superior to all other modulation schemes including sQAM when energy harvesting is taken into account.  
+
+In conclusion, we have shown that in simulations BQAM is indeed better that other known modulation schemes. 
+In future iterations we plan to perform a theoretical analysis for this constellation and further optimize it. 
+
+% BQAM outperforms all known modulation schemes in simulations. 
 
 
 \bibliographystyle{IEEEtranN}
