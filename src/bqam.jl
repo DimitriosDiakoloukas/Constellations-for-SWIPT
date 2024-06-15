@@ -1,4 +1,4 @@
-function bqam_initialization(M = 16; dmin = 0.1, spikes=4)
+function bqam_initialization(M = 16; dmin = 0.1)
     n = 6
     N = M ÷ n
     last_circle_n = M%n
