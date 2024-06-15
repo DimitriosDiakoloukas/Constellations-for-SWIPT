@@ -149,8 +149,8 @@ and minimum Euclidean distance ($d_{\text{min}}$) in designing optimal constella
 
 We examine known modulation schemes such as 16-PAM, 16-PSK, and 16-QAM, as well as the state of the art 16-Circular QAM (CQAM) and 16-Spike QAM (sQAM) as presented in \cite{cqam} and \cite{sqam} respectively. In the final sections of the assignment we propose a new modulation scheme, namely 16-Bee QAM (BQAM), which shows promising results. 
 
-Our approach includes both a theoretical and a simulation analysis. Constellations are represented with simple arrays of complex numbers in Julia with the convention that the first two symbols of the array always have distance \(d_\text{min}\). A more thorough explanation of our software setup is included in the Appendix section.  
-
+Our approach includes both a theoretical and a simulation analysis. Constellations are represented with simple arrays of complex numbers in Julia with the convention that the first two symbols of the array always have distance \(d_\text{min}\). 
+% A more thorough explanation of our software setup is included in the Appendix section.  
 
 \section{PAPR versus Minimum Euclidean Distance}
 In what follows the average symbol energy for all the constellations is normalized on \(E_s = 1\). This ensures that the comparisons are fair energy-wise. Moreover, \(M = 16\) is the number of symbols for each constellation. 
@@ -446,7 +446,7 @@ Regarding sQAM, it outperforms all other modulation schemes up to the point that
 The results of SER over SNR simulation are summarized in the following graph.  
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.45]{ex2_b.png}
+    \includegraphics[scale=0.56]{ex2_b.png}
     \caption{SER as a function of SNR simulation graph}
 \end{figure}
 
