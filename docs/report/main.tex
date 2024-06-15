@@ -421,13 +421,13 @@ Now we are ready to calculate the SER. Indeed,
     \text{SER}_\text{QAM}^\gamma &= 1 - \left[1 - Q\left(\sqrt{\frac{1.5\log_2 M \cdot \text{SNR}}{M - 1}\gamma}\right)\right]^2, \\
     \text{SER}_\text{QAM}^\text{max} &= Q\left(\frac{|x_M| - D_\text{mid} - \eps '}{\sqrt{2N_0}}\right),
 \end{align}
-Note the normalizing constant \(\gamma \), as well as the extraction of energy from the spike symbols. Then, 
+Note the normalizing constant \(\gamma \), as well as the extraction of energy \(\eps '\) from the spike symbols. Then, 
 \begin{equation}
     \text{SER}_\text{sQAM} = \frac{M - \ell}{M }\text{SER}_\text{QAM}^\gamma + \frac{\ell }{M }\text{SER}_\text{QAM}^\text{max}
 \end{equation}
 
 \subsection{Simulation Results}
-We have devised a Monte-Carlo simulation environment where we repeat the same experiment for a specific number of attempts and log the ratio of the errors to the number of the attempts in each of the two cases. 
+We have devised a Monte-Carlo simulation environment where we repeat the same experiment for a specific number of attempts and log the ratio of the errors to the number of the attempts in each of the two tasks. 
 
 \subsubsection*{SER over \(\eps(x)\)}
 The results of SER over \(\eps(x)\) simulation are summarized in the following graph. 
