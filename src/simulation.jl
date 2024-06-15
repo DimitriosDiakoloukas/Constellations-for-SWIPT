@@ -38,36 +38,3 @@ function simulate(constellation::Array, snr, harvest, tries; spikes=0)
     @printf("Done with %f\n", db(snr))
     return error_count/tries
 end
-
-# function simulateIQ(constellation::Array, snr, harvest_ratio, tries)
-#     error_count = 0
-#     N0 = energy_per_bit(constellation) / snr
-#     normal_dist_real = Normal(0, sqrt(N0/2))
-#     normal_dist_imag = Normal(0, sqrt(N0/2))
-#     homothecy = sqrt(1 - harvest_ratio)
-
-#     symbols_real = real.(constellation)
-#     symbols_imag = imag.(constellation)
-
-#     for curr ∈ 1:tries 
-#         tx_index = symbol_indexes[curr]
-#         tx_symbol = constellation[tx_index]
-
-#         tx_symbol_real = real(tx_symbol)
-#         tx_symbol_imag = imag(tx_symbol)
-#         rx_symbol_real = channel_noise(tx_symbol_real, normal_dist_real)
-#         rx_symbol_real *= homothecy 
-#         rx_symbol_imag = channel_noise(tx_symbol_imag, normal_dist_imag)
-#         rx_symbol_imag *= homothecy
-
-#         rx_symbol_real_detected = detection(rx_symbol_real, symbols_real)
-#         rx_symbol_imag_detected = detection(rx_symbol_imag, symbols_imag)
-
-#         error = (rx_symbol_real_detected != tx_symbol_real) || (rx_symbol_imag_detected != tx_symbol_imag)
-
-#         error_count += error
-#     end
-
-#     @printf("Done with %f\n", db(snr))
-#     return error_count/tries
-# end

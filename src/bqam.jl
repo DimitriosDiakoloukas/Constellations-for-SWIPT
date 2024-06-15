@@ -22,20 +22,11 @@ function bqam_initialization(M = 16; dmin = 0.1)
         offset_angle = angle(next_symbol)
         circle_next = psk_initialization(n; Es=r_next^2, offset_angle)
 
-        # clockwise *= -1
-        # if i == 3
-        #     switch = -1
-        #     clockwise *= -1
-        # else
-        #     switch = 1
-        # end
-        
         push!(radii, r_next)
         push!(symbols, circle_next)
     end
 
     wtf = abs.(vcat(symbols...))
-    # r_last = sqrt(M - sum(wtf.^2))
     left_energy = M - sum(wtf.^2)
     circle_last = psk_initialization(last_circle_n; Es=left_energy/last_circle_n, offset_angle=offset_angle+clockwise*π/6, first_angle=π/6)
 

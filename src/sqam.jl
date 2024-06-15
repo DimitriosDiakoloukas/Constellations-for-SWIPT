@@ -22,6 +22,5 @@ function sqam_initialization(M=16; dmin=0.3, spikes=4)
         sqam[M - N + 1] *= spike_ratio
     end
 
-    # sqam = energy_normalizer(sqam)
     return sqam
 end
