@@ -277,6 +277,50 @@ The simulations are therefore summarized in the following figure.
 \end{figure}
 
 Notice that the PSK point differs from the one presented in \cite{cqam}. Additionally, there is a slight variation for both the CQAM curves compared to \cite{cqam}. 
+
+\subsection{Detailed Review of Calculations}
+
+\subsubsection*{16-PAM}
+\begin{enumerate}
+    \item \textbf{Power Vector Calculation:}\\
+    For 16-PAM, we calculate the power of each symbol. The symbols are spaced equally, and the power of each symbol is determined by squaring the difference between the symbol position and the center point of the constellation. This results in a power vector that contains the power values for all 16 symbols.
+    \item \textbf{Average Power Calculation:}\\
+    The total power is obtained by summing all elements in the power vector. The average power is then calculated by dividing this total power by the number of symbols, \(M\).
+    \item \textbf{Maximum Power Calculation:}\\
+    The maximum power in 16-PAM is determined by the power of the outermost symbol, which is the symbol with the highest amplitude. This is given by the square of \((M - 1)\).
+    \item \textbf{PAPR Calculation:}\\
+    The Peak-to-Average Power Ratio (PAPR) is calculated by dividing the maximum power by the average power.
+    \item \textbf{Minimum Euclidean Distance (\(d_{\text{min}}\)) Calculation:}\\
+    The minimum Euclidean distance is calculated from the energy per symbol. The energy per symbol is the reciprocal of the average power. The minimum distance between adjacent symbols is then \(2 \sqrt{\text{energy per symbol}}\).
+\end{enumerate}
+
+\subsubsection*{16-PSK}
+\begin{enumerate}
+    \item \textbf{PAPR Calculation:}\\
+    For PSK modulation, the PAPR is always 1 because all symbols have the same amplitude. This results in a constant envelope signal.
+    \item \textbf{Minimum Euclidean Distance (\(d_{\text{min}}\)) Calculation:}\\
+    The minimum Euclidean distance for PSK is calculated based on the radius of the circle on which the symbols are placed. The distance between adjacent symbols on the circle is determined by the angle between them, which is \(2 \pi / M\). The formula used is \(2 \times \text{radius} \times \sin(\pi / M)\).
+\end{enumerate}
+
+\subsubsection*{16-QAM}
+\begin{enumerate}
+    \item \textbf{Power Vector Calculation:}\\
+    For 16-QAM, the symbols are arranged in a square grid. The power of each symbol is calculated by summing the squares of its x and y coordinates. This results in a power vector that contains the power values for all symbols in the constellation.
+    \item \textbf{Average Power Calculation:}\\
+    The total power is obtained by summing all elements in the power vector. The average power is then calculated by dividing this total power by the number of symbols, \(M\).
+    \item \textbf{Maximum Power Calculation:}\\
+    The maximum power in 16-QAM is determined by finding the maximum value in the power vector. This corresponds to the symbol with the highest combined x and y coordinates.
+    \item \textbf{PAPR Calculation:}\\
+    The PAPR is calculated by dividing the maximum power by the average power.
+\end{enumerate}
+
+\subsubsection*{16-CQAM}
+\begin{enumerate}
+    \item \textbf{Radius Calculations for CQAM:}\\
+    In CQAM, symbols are placed on concentric circles. The radii of these circles are calculated iteratively to ensure that the minimum distance between symbols is maintained. The first radius is determined based on the minimum distance divided by \(2 \sin(\pi / n)\), where \(n\) is the number of symbols per circle. Subsequent radii are calculated to maintain the minimum distance constraint.
+    \item \textbf{PAPR Calculation:}\\
+    The PAPR for CQAM is determined by the radius of the outermost circle. The maximum power is given by the square of the radius of this circle. The average power is calculated by averaging the power of all symbols, and the PAPR is then the maximum power divided by the average power.
+\end{enumerate}
 % Unfortunately, we could not get the exact results demonstrated in the paper. 
 
 \section{SER versus Harvested Energy and SNR}
