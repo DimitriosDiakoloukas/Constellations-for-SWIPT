@@ -1,9 +1,12 @@
-using Distributions
+# using Distributions
+using SpecialFunctions
 
-dist = Normal(0, 1)
+# dist = Normal(0, 1)
 
-function Q(x::Float64)
-    return 1 - cdf(dist, x)
+# function Q(x)
+#     return 1 - cdf(dist, x)
+# end
+
+function Q(x)
+    return 0.5 * erfc(x / sqrt(2))
 end
-
-

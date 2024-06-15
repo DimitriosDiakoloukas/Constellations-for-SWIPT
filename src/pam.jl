@@ -4,9 +4,9 @@ function pam_initialization(M = 16)::Array
     return symbols
 end
 
-function ser_pam(pam::Array, snr::Float64, harvest_ratio::Float64)
+function ser_pam(pam::Array, snr::Float64, harvest_energy::Float64)
     M = length(pam)
-    E_s = 1 - harvest_ratio
+    E_s = 1 - harvest_energy
     return 2 * (1 - 1/M) * Q( sqrt( 6 * E_s * log2(M) * snr / (M^2 - 1) ) )
 end
 
