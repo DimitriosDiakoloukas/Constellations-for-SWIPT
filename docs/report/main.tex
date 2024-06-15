@@ -258,7 +258,7 @@ In order to create these constellations on software, we used rotating vectors of
 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.7]{16cqam_dual.png}
+    \includegraphics[scale=0.6]{16cqam_dual.png}
     \caption{16-CQAM constellations, a) with \(N=4\), \(\dmin = 0.5\)} and b) with \(N=8\), \(\dmin = 0.4\)
 \end{figure}
 
@@ -272,7 +272,7 @@ The simulations are therefore summarized in the following figure.
 \newpage
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.7]{ex1_sim.png}
+    \includegraphics[scale=0.6]{ex1_sim.png}
     \caption{PAPR versus \(\dmin \) plot for various modulation schemes}
 \end{figure}
 
@@ -401,6 +401,12 @@ We will use the configuration from \cite{sqam} with \(4\) spikes. On this conste
     \eps ' = \eps(\text{spike}) = \frac{\eps M }{\ell}. 
 \end{equation}
 This is shown on the constellation diagram below. Note that the symbols not corresponding to spikes are identical, while energy has only be harvested from the spiked symbols. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{16sqam_both0and02.png}
+    \caption{16-sQAM constellation diagram of \(\dmin = 0.3\) with \(\eps = 0\) and \(\eps = 0.2\)}
+\end{figure}
+
 
 For the theoretical calculation of the symbol error probability, we emply the approximation outlined in \cite{sqam}. However we first need to calculate the PAPR. This is straight-forward as given the \(\dmin\), we can find the PAPR of the unnormalized constellation corresponding to that minimum distance by reverse engineering the process in the theoretical analysis of the first section. This is essentially the energy of 4 corner symbols, which will also be spiked. 
 
@@ -419,11 +425,6 @@ Note the normalizing constant \(\gamma \), as well as the extraction of energy f
 \begin{equation}
     \text{SER}_\text{sQAM} = \frac{M - \ell}{M }\text{SER}_\text{QAM}^\gamma + \frac{\ell }{M }\text{SER}_\text{QAM}^\text{max}
 \end{equation}
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.6]{16sqam_both0and02.png}
-    \caption{16-sQAM constellation diagram of \(\dmin = 0.3\) with \(\eps = 0\) and \(\eps = 0.2\)}
-\end{figure}
 
 \subsection{Simulation Results}
 We have devised a Monte-Carlo simulation environment where we repeat the same experiment for a specific number of attempts and log the ratio of the errors to the number of the attempts in each of the two cases. 
@@ -440,11 +441,12 @@ Excluding CQAM, the results are identical to those presented in \cite{cqam}.
 
 Regarding sQAM, it outperforms all other modulation schemes up to the point that the spikes are completely degraded to the origin. 
 
+\newpage
 \subsubsection*{SER over SNR}
 The results of SER over SNR simulation are summarized in the following graph.  
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.59]{ex2_b.png}
+    \includegraphics[scale=0.45]{ex2_b.png}
     \caption{SER as a function of SNR simulation graph}
 \end{figure}
 
@@ -463,7 +465,7 @@ It consists of two 6-PSKs such that the distance between any two of their 12 sym
 We now repeat our former simulation analysis, but this time we include BQAM. 
 \begin{figure}[h]
     \centering
-    \includegraphics[scale=0.58]{bqam_papr_dmin.png}
+    \includegraphics[scale=0.55]{bqam_papr_dmin.png}
     \caption{PAPR over \(\dmin\) plot for BQAM}
 \end{figure}
 
@@ -481,9 +483,11 @@ It is apparent that a tradeoff between \(\dmin \) and PAPR can be made such that
     \includegraphics[scale=0.58]{bqam_ex2_b.png}
     \caption{SER as function of \(\eps(x)\) graph with BQAM included}
 \end{figure}
+
+\newpage
 Note that BQAM has almost identical SER with QAM without energy harvesting. On the other hand it is cleary superior to all other modulation schemes including sQAM when energy harvesting is taken into account.  
 
-In conclusion, we have shown that in simulations BQAM is indeed better that other known modulation schemes. 
+In conclusion, we have shown that in simulations BQAM is indeed better than other known modulation schemes. 
 In future iterations we plan to perform a theoretical analysis for this constellation and further optimize it. 
 
 % BQAM outperforms all known modulation schemes in simulations. 
